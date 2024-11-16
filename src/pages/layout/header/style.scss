@@ -1,0 +1,100 @@
+// Định nghĩa biến màu
+$primary-color: black;
+$secondary-color: white;
+$highlight-color: red;
+$border-color: #ddd;
+$text-color: black;
+$font-size-small: 12px;
+$font-size-medium: 14px;
+$font-size-large: 20px;
+
+// Top bar
+.top-bar {
+    // margin-left: auto;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+
+    a {
+        margin: 0 15px;
+        color: $text-color;
+        font-size: $font-size-small;
+        text-decoration: none;
+    }
+    .flag {
+        width: 30px;
+        // display: flex;
+        // justify-content: center;
+        // margin-right: 20px;
+        margin-bottom: 2px;
+        border: solid 0.5px black;
+    }
+}
+
+// Menu
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // padding: 0 20px;
+    // border: solid 1px black;
+    background-color: $secondary-color;
+    border-bottom: 1px solid $border-color;
+
+    .logo {
+        border: saddlebrown solid;
+        img {
+            height: 60px;
+            margin-right: 20px;
+        }
+    }
+
+    .categories {
+        border: saddlebrown solid;
+        margin: 0 150px 0 350px;
+        a {
+            margin: 0 15px;
+            color: $text-color;
+            text-decoration: none;
+            font-size: $font-size-medium;
+            
+            &.outlet {
+                color: $highlight-color;
+            }
+        }
+    }
+    
+    .search {
+        display: flex;
+        // align-items: center;
+        margin-left: 20px;
+        
+        input {
+            padding: 5px;
+            font-size: $font-size-medium;
+            border: 1px solid $border-color;
+            border-radius: 3px 0 0 3px;
+        }
+        
+        button {
+            padding: 5px;
+            background-color: $border-color;
+            border: none;
+            border-radius: 0 3px 3px 0;
+            cursor: pointer;
+        }
+    }
+    
+    .icons {
+        display: flex;
+        justify-self: end;
+        align-items: center;
+        margin-left: 15px;
+        
+        i {
+            margin: 0 8px;
+            font-size: $font-size-large;
+            cursor: pointer;
+        }
+    }
+}
