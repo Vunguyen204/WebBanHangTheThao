@@ -31,8 +31,8 @@ $font-size-large: 20px;
     }
 }
 
-// header-content
-.header-content {
+// header-menu
+.header-menu {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,6 +76,7 @@ $font-size-large: 20px;
                 }
                 
                 .subMenu{
+                    box-sizing: border-box;
                     background-color: rgb(255, 255, 255);
                     border: 1px solid rgba(180, 179, 179, 0.5);
                     display: block;
@@ -89,7 +90,7 @@ $font-size-large: 20px;
                     width: 150px;
                     // min-width: 200px;
                     z-index: 10;
-                    transition: all, 0.3s;
+                    transition: all 0.3s;
                     opacity: 0;
                     visibility: hidden;
                     gap: 30px;
@@ -124,7 +125,7 @@ $font-size-large: 20px;
         }
     }
     
-    .container{
+    .container-menu-search{
         display: flex;
         // justify-content: flex-end;
         // background-color: red;

@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import HomePage from "./pages/homePage";
 import { ROUTES } from "./utils/router";
 import MasterLayout from "./pages/layout/masterLayout";
+import HomePage from "./pages/homePage";
 import ProfilePage from "./pages/profilePage";
 
 const renderUserRouter = () => {

@@ -5,20 +5,22 @@
 html,
 body {
     margin: 0;
+    // overflow-x: hidden; // Ngăn cuộn ngang
 }
 
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    
-}
-
-.container {
-    margin: 0 auto;
-    padding: 0 100px;
+    // max-width: 100%;
 
 }
+
+// .container {
+//     margin: 0 auto;
+//     padding: 0 100px;
+
+// }
 
 // .col-xl-2{
 //     flex: 0 0 20%;
@@ -55,8 +57,12 @@ body {
     .col-xl-3{
         flex: 0 0 30%;
         max-width: 30%;
-        display: flex;
         // background-color: rgb(242, 164, 164);
+    }
+
+    .col-xl-12{
+        flex: 0 0 100%;
+        max-width: 100%;
     }
 }
 

@@ -90,7 +90,7 @@ const Header = () => {
         <Link to="#">Trình theo dõi đơn hàng</Link>
         <img src="vn.png" alt="VN" className="flag" />
       </div>
-      <div className="header-content">
+      <div className="header-menu">
         <div className="col-xl-2">
           <div className="logo">
             <Link to="/">
@@ -161,7 +161,7 @@ const Header = () => {
           </nav>
         </div>
         <div className="col-xl-3">
-          <div className="container">
+          <div className="container-menu-search">
             <div className="search">
               <input type="text" placeholder="Tìm kiếm" />
               <button>
