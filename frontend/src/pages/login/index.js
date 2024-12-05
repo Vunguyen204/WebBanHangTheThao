@@ -1,8 +1,6 @@
 import { memo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "./style.scss";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,8 +24,14 @@ const Login = () => {
       // Lưu thông tin người dùng vào localStorage
       if (response.data.user) {
         localStorage.setItem("user", JSON.stringify(response.data.user));
-        alert("Đăng nhập thành công!");
-        navigate("/"); // Chuyển hướng sau khi đăng nhập thành công
+        localStorage.setItem("token", response.data.token);
+        if (response.data.user.role === "admin") {
+          // Chuyển hướng đến trang quản trị
+          navigate("/product")
+        } else {
+          // Chuyển hướng đến trang người dùng
+          navigate("/");
+        }
       } else {
         alert("Đăng nhập thất bại: Không có thông tin người dùng.");
       }

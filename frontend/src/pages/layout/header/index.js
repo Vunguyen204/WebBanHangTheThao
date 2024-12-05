@@ -1,104 +1,119 @@
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
+import axios from "axios";
 import "./style.scss";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { Link } from "react-router-dom";
-import { ROUTES } from "../../../utils/router";
+import Logout from '../../logout';
 
 const Header = () => {
   const [menus, setMenus] = useState([
-    {
-      name: "SẢN PHẨM",
-      path: ROUTES.USER.PRODUCT,
-    },
-    {
-      name: "NAM",
-      path: "",
-      isShowSubmnu: false,
-      child: [
-        {
-          name: "GIÀY",
-          path: "",
-        },
-        {
-          name: "QUẦN ÁO",
-          path: "",
-        },
-        {
-          name: "PHỤ KIỆN",
-          path: "",
-        },
-        {
-          name: "THỂ THAO",
-          path: "",
-        },
-      ],
-    },
-    {
-      name: "NỮ",
-      path: "",
-      isShowSubmnu: false,
-      child: [
-        {
-          name: "GIÀY",
-          path: "",
-        },
-        {
-          name: "QUẦN ÁO",
-          path: "",
-        },
-        {
-          name: "PHỤ KIỆN",
-          path: "",
-        },
-        {
-          name: "THỂ THAO",
-          path: "",
-        },
-      ],
-    },
-    {
-      name: "TRẺ EM",
-      path: "",
-      isShowSubmnu: false,
-      child: [
-        {
-          name: "TRẺ NHỎ (1-4)",
-          path: "",
-        },
-        {
-          name: "TRẺ EM (4-8)",
-          path: "",
-        },
-        {
-          name: "THANH THIẾU NIÊN (8-16)",
-          path: "",
-        },
-      ],
-    },
-    {
-      name: "THỂ THAO",
-      path: "",
-      isShowSubmnu: false,
-      child: [
-        {
-          name: "BÓNG ĐÁ",
-          path: "",
-        },
-        {
-          name: "BÓNG RỔ",
-          path: "",
-        },
-        {
-          name: "CHẠY",
-          path: "",
-        },
-        {
-          name: "GOLF",
-          path: "",
-        },
-      ],
-    },
+    // {
+    //   name: "SẢN PHẨM",
+    //   path: ROUTES.USER.PRODUCT,
+    // },
+    // {
+    //   name: "NAM",
+    //   path: "",
+    //   isShowSubmnu: false,
+    //   child: [
+    //     {
+    //       name: "GIÀY",
+    //       path: "",
+    //     },
+    //     {
+    //       name: "QUẦN ÁO",
+    //       path: "",
+    //     },
+    //     {
+    //       name: "PHỤ KIỆN",
+    //       path: "",
+    //     },
+    //     {
+    //       name: "THỂ THAO",
+    //       path: "",
+    //     },
+    //   ],
+    // },
+    // {
+    //   name: "NỮ",
+    //   path: "",
+    //   isShowSubmnu: false,
+    //   child: [
+    //     {
+    //       name: "GIÀY",
+    //       path: "",
+    //     },
+    //     {
+    //       name: "QUẦN ÁO",
+    //       path: "",
+    //     },
+    //     {
+    //       name: "PHỤ KIỆN",
+    //       path: "",
+    //     },
+    //     {
+    //       name: "THỂ THAO",
+    //       path: "",
+    //     },
+    //   ],
+    // },
+    // {
+    //   name: "TRẺ EM",
+    //   path: "",
+    //   isShowSubmnu: false,
+    //   child: [
+    //     {
+    //       name: "TRẺ NHỎ (1-4)",
+    //       path: "",
+    //     },
+    //     {
+    //       name: "TRẺ EM (4-8)",
+    //       path: "",
+    //     },
+    //     {
+    //       name: "THANH THIẾU NIÊN (8-16)",
+    //       path: "",
+    //     },
+    //   ],
+    // },
+    // {
+    //   name: "THỂ THAO",
+    //   path: "",
+    //   isShowSubmnu: false,
+    //   child: [
+    //     {
+    //       name: "BÓNG ĐÁ",
+    //       path: "",
+    //     },
+    //     {
+    //       name: "BÓNG RỔ",
+    //       path: "",
+    //     },
+    //     {
+    //       name: "CHẠY",
+    //       path: "",
+    //     },
+    //     {
+    //       name: "GOLF",
+    //       path: "",
+    //     },
+    //   ],
+    // },
   ]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // Trạng thái menu con
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/categories");
+        setMenus(response.data);
+      } catch (error) {
+        console.error("Lỗi khi lấy danh mục:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   // Kiểm tra trạng thái đăng nhập
   const user = (() => {
@@ -115,39 +130,47 @@ const Header = () => {
     return null; // Trả về null nếu không có giá trị trong localStorage
   })();
 
+  const toggleMenu = () => {
+    setIsMenuOpen((prevState) => !prevState); // Thay đổi trạng thái mở/đóng menu
+  };
+
   return (
     <div className="Header">
       <div className="header-top">
         <Link to="#">Trợ giúp</Link>
         <Link to="#">Danh sách sản phẩm yêu thích</Link>
         <Link to="#">Trình theo dõi đơn hàng</Link>
-        <img src="vn.png" alt="VN" className="flag" />
+        <img src="/images/vn.png" alt="VN" className="flag" />
       </div>
       <div className="header-menu">
         <div className="col-xl-2">
           <div className="logo">
             <Link to="/">
-              <img src="logo.png" alt="Logo" />
+              <img src="/images/logo.png" alt="Logo" />
             </Link>
           </div>
         </div>
         <div className="col-xl-5">
           <nav className="categories">
             <ul>
-              {menus?.map((menu, menuKey) => (
-                <li key={menuKey} className={menuKey === 0 ? "product" : ""}>
-                  <Link to={menu?.path}>{menu?.name}</Link>
-                  {menu.child && (
-                    <ul className="subMenu">
-                      {menu.child.map((child, childKey) => (
-                        <li key={`${menuKey}-${childKey}`}>
-                          <Link to={child.path}>{child.name}</Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
+              {menus.length > 0 ? (
+                menus.map((menu, menuKey) => (
+                  <li key={menuKey} className={menuKey === 0 ? "product" : ""}>
+                    <Link to={menu.path}>{menu.name}</Link>
+                    {menu.child && menu.child.length > 0 && (
+                      <ul className="subMenu">
+                        {menu.child.map((child, childKey) => (
+                          <li key={`${menuKey}-${childKey}`}>
+                            <Link to={child.path}>{child.name}</Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))
+              ) : (
+                <p>Không có danh mục nào.</p> // Hiển thị nếu menus rỗng
+              )}
             </ul>
           </nav>
         </div>
@@ -160,9 +183,28 @@ const Header = () => {
               </button>
             </div>
             <div className="icons">
-              <Link to={user ? "/profile" : "/login"}>
-                <i className="fa fa-user"></i>
-              </Link>
+              {/* Nếu người dùng đã đăng nhập, hiển thị menu Profile và Logout */}
+              {user ? (
+                <div className="user-menu">
+                  {/* Khi click vào icon, toggle menu */}
+                    <i className="fa fa-user" onClick={toggleMenu}></i>
+                  {isMenuOpen && (
+                    <ul className="subMenu">
+                      <li>
+                        <Link to="/profile">Profile</Link>
+                      </li>
+                      <li>
+                        <Logout /> {/* Component logout để đăng xuất */}
+                      </li>
+                    </ul>
+                  )}
+                </div>
+              ) : (
+                // Nếu chưa đăng nhập, hiển thị icon user dẫn đến trang login
+                <Link to="/login">
+                  <i className="fa fa-user"></i>
+                </Link>
+              )}
               <i className="fa fa-heart"></i>
               <Link to="/cart">
                 <i className="fa fa-shopping-cart"></i>

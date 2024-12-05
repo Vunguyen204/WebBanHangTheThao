@@ -4,6 +4,8 @@ const bodyParser = require("body-parser");
 const db = require("./db");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const jwt = require("jsonwebtoken");
+const SECRET_KEY = process.env.SECRET_KEY;
 
 const app = express();
 const PORT = 5000;
@@ -11,9 +13,6 @@ const PORT = 5000;
 app.listen(PORT, () =>
   console.log(`Server running at http://localhost:${PORT}`)
 );
-
-const jwt = require("jsonwebtoken");
-const SECRET_KEY = process.env.SECRET_KEY;
 
 app.use(
   cors({
@@ -56,7 +55,6 @@ app.post("/api/register", async (req, res) => {
     res.status(500).json({ message: "Lỗi server khi mã hóa mật khẩu!" });
   }
 });
-
 
 // API đăng nhập người dùng
 app.post("/api/login", async (req, res) => {
@@ -105,4 +103,84 @@ app.post("/api/login", async (req, res) => {
     console.error(error);
     res.status(500).json({ message: "Lỗi server!" });
   }
+});
+
+//API lấy menu danh mục
+app.get("/api/categories", (req, res) => {
+  const query = "SELECT * FROM categories WHERE parent_id IS NULL";
+
+  db.query(query, (err, result) => {
+    if (err) {
+      console.error("Lỗi khi truy vấn cơ sở dữ liệu:", err);
+      return res.status(500).json({ message: "Lỗi server!" });
+    }
+    // Mảng để lưu danh mục cha và các danh mục con
+    const categories = result.map((category) => {
+      return new Promise((resolve, reject) => {
+        // Truy vấn lấy danh mục con của mỗi danh mục cha
+        const subQuery = "SELECT * FROM categories WHERE parent_id = ?";
+        db.query(subQuery, [category.id], (err, subResult) => {
+          if (err) {
+            reject(err);
+          }
+          category.child = subResult; // Gán danh mục con vào mỗi danh mục cha
+          resolve(category);
+        });
+      });
+    });
+    // Khi tất cả danh mục cha và con đã được lấy xong
+    Promise.all(categories)
+      .then((categoriesWithChildren) => {
+        res.json(categoriesWithChildren); // Trả về danh mục cha cùng danh mục con
+      })
+      .catch((err) => {
+        console.error("Lỗi khi lấy danh mục con:", err);
+        res.status(500).json({ message: "Lỗi khi lấy danh mục con!" });
+      });
+  });
+});
+
+// API lấy danh sách tất cả sản phẩm
+app.get('/products', (req, res) => {
+  const query = 'SELECT * FROM products'; // Thay `products` bằng tên bảng của bạn
+  db.query(query, (err, results) => {
+    if (err) {
+      res.status(500).send(err);
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// API lấy danh sách sản phẩm theo danh mục
+app.get('/api/products/category/:categoryId', (req, res) => {
+  const categoryId = req.params.categoryId;
+
+  // Truy vấn sản phẩm thuộc danh mục
+  const query = 'SELECT * FROM products WHERE category_id = ?';
+  db.query(query, [categoryId], (err, results) => {
+    if (err) {
+      res.status(500).send({ message: "Lỗi khi truy vấn cơ sở dữ liệu!" });
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// API lấy chi tiết sản phẩm theo ID
+app.get('/products/:id', (req, res) => {
+  const { id } = req.params; // Lấy id từ URL
+  const query = 'SELECT * FROM products WHERE id = ?'; // Truy vấn sản phẩm với ID
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error("Lỗi truy vấn:", err);
+      return res.status(500).json({ message: "Lỗi server khi truy vấn!" });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({ message: "Sản phẩm không tồn tại!" }); // Xử lý khi không có sản phẩm
+    }
+
+    res.json(result[0]); // Trả về chi tiết sản phẩm
+  });
 });
