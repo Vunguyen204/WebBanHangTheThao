@@ -1,0 +1,179 @@
+// Định nghĩa biến màu
+$primary-color: black;
+$secondary-color: white;
+$highlight-color: red;
+$border-color: #ddd;
+$text-color: black;
+$font-size-small: 12px;
+$font-size-medium: 14px;
+$font-size-large: 20px;
+
+// Top bar
+.header-top {
+    // margin-left: auto;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+
+    a {
+        margin: 0 15px;
+        color: $text-color;
+        font-size: $font-size-small;
+        text-decoration: none;
+    }
+    .flag {
+        width: 30px;
+        // display: flex;
+        // justify-content: center;
+        // margin-right: 20px;
+        margin-bottom: 2px;
+        border: solid 0.5px black;
+    }
+}
+
+// header-menu
+.header-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // padding: 0 20px;
+    // border: solid 1px black;
+    background-color: $secondary-color;
+    // border: saddlebrown solid;
+    border-bottom: 1px solid $border-color;
+
+    .logo {
+        // border: saddlebrown solid;
+        padding: 0 0 0 50px;
+        a {
+            display: inline-block;
+        }
+        img {
+            height: 60px;
+            // margin-right: 20px;
+        }
+    }
+
+    .categories {
+        // border: saddlebrown solid;
+        // margin: 0 220px 0 450px;
+
+        ul{
+            justify-content: center;
+            list-style-type: none;
+            display: flex;
+            // justify-content: space-between;
+            li{
+                font-weight: bold;
+                position: relative;
+                
+                a {
+                    padding: 0 30px 20px 0;
+                    color: $text-color;
+                    text-decoration: none;
+                    font-size: $font-size-medium;
+                    
+                    &.outlet {
+                        color: $highlight-color;
+                    }
+                }
+                
+                .subMenu{
+                    box-sizing: border-box;
+                    background-color: rgb(255, 255, 255);
+                    border: 1px solid rgba(180, 179, 179, 0.5);
+                    display: block;
+                    // display: flex;
+                    position: absolute;
+                    // top: 100%;
+                    // left: 0%;
+                    margin: 20px 0;
+                    padding: 10px 10px;
+                    width: 150px;
+                    // min-width: 200px;
+                    z-index: 10;
+                    transition: all 0.3s;
+                    opacity: 0;
+                    visibility: hidden;
+                    gap: 30px;
+
+                    li{
+                        margin-bottom: 10px;
+                        
+                        &:last-child{
+                            margin-bottom: 0;
+                        }
+
+                        a{
+                            text-transform: capitalize;
+                            
+                        }
+
+                        :hover{
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+
+            .product a {
+                color: $highlight-color;
+            }
+
+            li:hover .subMenu {
+                opacity: 1;
+                visibility: visible;
+            }    
+        }
+    }
+    
+    .container-menu-search{
+        display: flex;
+        // justify-content: flex-end;
+        // background-color: red;
+
+        .search {
+            display: flex;
+            // align-items: center;
+            // margin-left: 20px;
+            
+            input {
+                padding: 5px;
+                font-size: $font-size-medium;
+                border: 1px solid $border-color;
+                border-radius: 3px 0 0 3px;
+            }
+            
+            button {
+                padding: 5px;
+                background-color: $border-color;
+                border: none;
+                border-radius: 0 3px 3px 0;
+                cursor: pointer;
+            }
+        }
+    
+        .icons {
+            display: flex;
+            // justify-self: end;
+            align-items: center;
+            margin-left: 15px;
+            
+            .fa {
+                color: #000; /* Giữ nguyên màu mặc định */
+              }
+              
+            //   .fa:focus,
+            //   .fa:active,
+            //   .fa:visited {
+            //     color: #000; /* Không thay đổi màu */
+            //   }
+
+            i {
+                margin: 0 8px;
+                font-size: $font-size-large;
+                cursor: pointer;
+            }
+        }
+    }
+}
