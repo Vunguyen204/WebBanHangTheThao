@@ -15,18 +15,5 @@
         display: flex;
         flex-wrap: wrap;
         gap: 1rem;
-
-        a{
-            color: #000;
-            text-decoration: none;
-        }
-        a:hover{
-            border: 0.1px solid #000;
-        }
-
-        .price {
-            font-weight: bold;
-            margin: 5px 0;
-        }
     }
 }

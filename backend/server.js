@@ -16,10 +16,19 @@ app.listen(PORT, () =>
 
 app.use(
   cors({
-    origin: "http://localhost:3000", // URL của frontend React
+    origin: (origin, callback) => {
+      if (!origin || origin.startsWith("http://localhost")) {
+        // Cho phép nếu là localhost hoặc các yêu cầu không có origin (vd: từ Postman)
+        callback(null, true);
+      } else {
+        // Từ chối các địa chỉ không hợp lệ
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: "GET,POST",
   })
 );
+
 app.use(bodyParser.json());
 
 // API đăng ký người dùng
@@ -153,19 +162,33 @@ app.get('/products', (req, res) => {
 });
 
 // API lấy danh sách sản phẩm theo danh mục
-app.get('/api/products/category/:categoryId', (req, res) => {
-  const categoryId = req.params.categoryId;
+app.get('/api/products/category/:categoryName', (req, res) => {
+  const categoryName = req.params.categoryName;
+
+  // Tạo ánh xạ giữa categoryName và categoryId
+  const categoryMap = {
+    'nam': 2,
+    'nu': 3,
+    'kid': 4,
+    'sport': 5,
+  };
+
+  const categoryId = categoryMap[categoryName];
+
+  if (!categoryId) {
+    return res.status(404).send({ message: 'Danh mục không tồn tại!' });
+  }
 
   // Truy vấn sản phẩm thuộc danh mục
   const query = 'SELECT * FROM products WHERE category_id = ?';
   db.query(query, [categoryId], (err, results) => {
     if (err) {
-      res.status(500).send({ message: "Lỗi khi truy vấn cơ sở dữ liệu!" });
-      return;
+      return res.status(500).send({ message: 'Lỗi khi truy vấn cơ sở dữ liệu!' });
     }
     res.json(results);
   });
 });
+
 
 // API lấy chi tiết sản phẩm theo ID
 app.get('/products/:id', (req, res) => {

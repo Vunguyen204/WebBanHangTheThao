@@ -1,11 +1,13 @@
 import { memo } from "react";
 import React, { useState, useEffect } from "react";
-import { Button, ListGroup, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Button, ListGroup } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
 import CurrencyFormat from "../../components/currencyFormat";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Cart = () => {
     const [cart, setCart] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         // Lấy giỏ hàng từ localStorage khi component được render
@@ -41,6 +43,15 @@ const Cart = () => {
         0
     );
 
+    // Điều hướng đến trang Checkout
+    const handleCheckout = () => {
+      if (cart.length === 0) {
+          alert("Giỏ hàng trống, không thể đặt hàng!");
+          return;
+      }
+      navigate("/checkout"); // Điều hướng đến trang Checkout
+  };
+
     return (
       <div className="Cart">
         <h2>Giỏ Hàng</h2>
@@ -52,7 +63,7 @@ const Cart = () => {
                   <img
                     src={product.image_url}
                     alt={product.name}
-                    style={{ width: 50, height: 50 }}
+                    style={{ width: 100, height: 100 }}
                   />
                   <span>{product.name}</span>
                 </div>
@@ -100,6 +111,9 @@ const Cart = () => {
         <Link to="/product">
           <Button variant="primary">Quay lại mua sắm</Button>
         </Link>
+        <Button variant="primary" onClick={handleCheckout}>
+          Đặt hàng
+        </Button>
       </div>
     );
 };

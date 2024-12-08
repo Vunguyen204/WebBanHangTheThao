@@ -6,100 +6,7 @@ import { Link } from "react-router-dom";
 import Logout from '../../logout';
 
 const Header = () => {
-  const [menus, setMenus] = useState([
-    // {
-    //   name: "SẢN PHẨM",
-    //   path: ROUTES.USER.PRODUCT,
-    // },
-    // {
-    //   name: "NAM",
-    //   path: "",
-    //   isShowSubmnu: false,
-    //   child: [
-    //     {
-    //       name: "GIÀY",
-    //       path: "",
-    //     },
-    //     {
-    //       name: "QUẦN ÁO",
-    //       path: "",
-    //     },
-    //     {
-    //       name: "PHỤ KIỆN",
-    //       path: "",
-    //     },
-    //     {
-    //       name: "THỂ THAO",
-    //       path: "",
-    //     },
-    //   ],
-    // },
-    // {
-    //   name: "NỮ",
-    //   path: "",
-    //   isShowSubmnu: false,
-    //   child: [
-    //     {
-    //       name: "GIÀY",
-    //       path: "",
-    //     },
-    //     {
-    //       name: "QUẦN ÁO",
-    //       path: "",
-    //     },
-    //     {
-    //       name: "PHỤ KIỆN",
-    //       path: "",
-    //     },
-    //     {
-    //       name: "THỂ THAO",
-    //       path: "",
-    //     },
-    //   ],
-    // },
-    // {
-    //   name: "TRẺ EM",
-    //   path: "",
-    //   isShowSubmnu: false,
-    //   child: [
-    //     {
-    //       name: "TRẺ NHỎ (1-4)",
-    //       path: "",
-    //     },
-    //     {
-    //       name: "TRẺ EM (4-8)",
-    //       path: "",
-    //     },
-    //     {
-    //       name: "THANH THIẾU NIÊN (8-16)",
-    //       path: "",
-    //     },
-    //   ],
-    // },
-    // {
-    //   name: "THỂ THAO",
-    //   path: "",
-    //   isShowSubmnu: false,
-    //   child: [
-    //     {
-    //       name: "BÓNG ĐÁ",
-    //       path: "",
-    //     },
-    //     {
-    //       name: "BÓNG RỔ",
-    //       path: "",
-    //     },
-    //     {
-    //       name: "CHẠY",
-    //       path: "",
-    //     },
-    //     {
-    //       name: "GOLF",
-    //       path: "",
-    //     },
-    //   ],
-    // },
-  ]);
+  const [menus, setMenus] = useState([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Trạng thái menu con
 
   useEffect(() => {
@@ -127,7 +34,7 @@ const Header = () => {
         return null;
       }
     }
-    return null; // Trả về null nếu không có giá trị trong localStorage
+    return null;
   })();
 
   const toggleMenu = () => {
@@ -187,12 +94,22 @@ const Header = () => {
               {user ? (
                 <div className="user-menu">
                   {/* Khi click vào icon, toggle menu */}
-                    <i className="fa fa-user" onClick={toggleMenu}></i>
+                  <i className="fa fa-user" onClick={toggleMenu}></i>
                   {isMenuOpen && (
                     <ul className="subMenu">
                       <li>
                         <Link to="/profile">Profile</Link>
                       </li>
+                      {user.role === "admin" && ( // Kiểm tra vai trò admin
+                        <>
+                          <li>
+                            <Link to="/admin/dashboard">Dashboard</Link>
+                          </li>
+                          <li>
+                            <Link to="/admin/manage-users">Quản lý người dùng</Link>
+                          </li>
+                        </>
+                      )}
                       <li>
                         <Logout /> {/* Component logout để đăng xuất */}
                       </li>

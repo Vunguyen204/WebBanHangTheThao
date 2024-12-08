@@ -1,9 +1,7 @@
 import React, { memo, useEffect, useState } from "react";
 import axios from "axios";
-import { Button, Card } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import "./style.scss";
-import CurrencyFormat from "../../components/currencyFormat";
+import ProductCard from "../../components/productCard";
 
 const Product = () => {
   const [products, setProducts] = useState([]);
@@ -27,16 +25,7 @@ const Product = () => {
       </div>
       <div className="products-list col-xl-10">
         {products.map((product) => (
-          <Link key={product.id} to={`/product/${product.id}`}> {/* Sử dụng đường dẫn động */}
-            <Card key={product.id} style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={product.image_url} alt={product.name} />
-              <Card.Body>
-                <Card.Text className="price"><CurrencyFormat value={product.price} /></Card.Text>
-                <Card.Title>{product.name}</Card.Title>
-                {/* <Button variant="primary">${product.price}</Button> */}
-              </Card.Body>
-            </Card>
-          </Link>
+          <ProductCard key={product.id} product={product} />
         ))}
       </div>
     </div>

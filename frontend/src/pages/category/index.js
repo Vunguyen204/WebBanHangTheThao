@@ -1,36 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import axios from "axios";
+import { useParams } from "react-router-dom";
+import ProductCard from "../../components/productCard"; 
 
 const CategoryPage = () => {
-  const { categoryId } = useParams(); // Lấy categoryId từ URL
+  const { categoryName } = useParams();  // Lấy categoryName từ URL
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Lấy sản phẩm của danh mục theo categoryId
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get(`/api/products/category/${categoryId}`);
-        setProducts(response.data); // Lưu các sản phẩm vào state
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    fetchProducts();
-  }, [categoryId]); // Khi categoryId thay đổi, gọi lại API
+    // Gọi API để lấy sản phẩm theo danh mục
+    axios
+      .get(`http://localhost:5000/api/products/category/${categoryName}`)
+      .then((response) => {
+        setProducts(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error.response?.data?.message || 'Lỗi không xác định!');
+        setLoading(false);
+      });
+  }, [categoryName]);
+  
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div>
-      <h1>Danh mục {categoryId}</h1>
-      <div className="products-list">
-        {products.map((product) => (
-          <div key={product.id} className="product-item">
-            <h2>{product.name}</h2>
-            <p>{product.description}</p>
-            <p>Giá: {product.price}</p>
-          </div>
-        ))}
+      <h2>Sản phẩm trong danh mục {categoryName}</h2>
+      <div className="product-list">
+        {products.length === 0 ? (
+          <div>Không có sản phẩm trong danh mục này.</div>
+        ) : (
+          products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))
+        )}
       </div>
     </div>
   );

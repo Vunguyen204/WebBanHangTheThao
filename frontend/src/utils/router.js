@@ -6,7 +6,14 @@ export const ROUTES = {
         CART: "/cart",
         LOGIN: "/login",
         REGISTER: "/register",
-        CATEGORY: "/category/:categoryId",
+        CATEGORY: "/category/:categoryName",
         PRODUCT_DETAIL: "/product/:id",
-    }
+        CHECKOUT: "/checkout",
+        CHECKOUTINFO: "/checkoutinfo",
+    },
+
+    ADMIN: {
+        DASHBOARD: "/admin/dashboard",
+        MANAGE_USERS: "/admin/manage-users",
+      },
 }
