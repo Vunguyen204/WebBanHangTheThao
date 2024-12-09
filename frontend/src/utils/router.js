@@ -9,11 +9,12 @@ export const ROUTES = {
         CATEGORY: "/category/:categoryName",
         PRODUCT_DETAIL: "/product/:id",
         CHECKOUT: "/checkout",
-        CHECKOUTINFO: "/checkoutinfo",
+        CHECKOUTDETAIL: "/checkoutdetail/:orderId",
     },
 
     ADMIN: {
         DASHBOARD: "/admin/dashboard",
         MANAGE_USERS: "/admin/manage-users",
+        MANAGE_ORDERS: "/admin/manage-orders",
       },
 }

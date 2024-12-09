@@ -24,6 +24,11 @@ const ProductDetail = () => {
   }, [id]);  // Lấy lại dữ liệu khi ID thay đổi
 
   const addToCart = (product) => {
+    const user = JSON.parse(localStorage.getItem("user")) || null;
+    if (!user || user.role === "guest") {
+      alert("Bạn cần đăng nhập để thêm vào giỏ hàng!");
+      return;
+    }
     // Lấy giỏ hàng hiện tại từ localStorage
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa

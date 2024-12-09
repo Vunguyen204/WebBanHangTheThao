@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import ProductCard from "../../components/productCard"; 
+import "./style.scss"
 
 const CategoryPage = () => {
   const { categoryName } = useParams();  // Lấy categoryName từ URL
@@ -27,9 +28,9 @@ const CategoryPage = () => {
   if (error) return <div>{error}</div>;
 
   return (
-    <div>
+    <div className="Category">
       <h2>Sản phẩm trong danh mục {categoryName}</h2>
-      <div className="product-list">
+      <div className="products-list col-xl-10">
         {products.length === 0 ? (
           <div>Không có sản phẩm trong danh mục này.</div>
         ) : (

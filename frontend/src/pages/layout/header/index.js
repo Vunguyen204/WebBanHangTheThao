@@ -108,6 +108,9 @@ const Header = () => {
                           <li>
                             <Link to="/admin/manage-users">Quản lý người dùng</Link>
                           </li>
+                          <li>
+                            <Link to="/admin/manage-orders">Quản lý đơn đặt hàng</Link>
+                          </li>
                         </>
                       )}
                       <li>

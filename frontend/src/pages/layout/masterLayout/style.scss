@@ -1,0 +1,27 @@
+/* Đảm bảo body và html có chiều cao 100% và không có khoảng cách mặc định */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0; /* Đảm bảo không có padding mặc định */
+}
+
+/* Container chính sử dụng Flexbox để quản lý layout */
+.masterLayout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  /* Nội dung chính chiếm toàn bộ không gian còn lại */
+  main {
+    flex: 1;
+    padding:0 0 20px 0;
+    min-height: 40vh;
+  }
+  
+  /* Footer sẽ luôn ở dưới cùng */
+  footer {
+    background-color: #f1f1f1;
+    // text-align: center;
+    margin-top: auto; /* Đảm bảo footer luôn nằm ở dưới cùng */
+  }
+}
